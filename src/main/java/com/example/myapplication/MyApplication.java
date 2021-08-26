@@ -18,3 +18,4 @@ public class MyApplication {
         return "Hello world!"; // added
     } // added
 }
+// second commit
