@@ -217,6 +217,24 @@ opacity: 0.65;
     </section>
     <!-- Footer-->
 
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">We'll notify you </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                 You've been added to the list. We'll notfiy you when registration begins.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
@@ -241,7 +259,6 @@ opacity: 0.65;
 
                 // Send the email as JSON data
                 const data = {email: email};
-                console.log(data)
 
                 fetch(form.attr('action'), {
                     method: 'POST',
@@ -253,6 +270,7 @@ opacity: 0.65;
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
+                    $('#staticBackdrop').modal('show')
                 })
                 .catch((error) => {
                     console.error('Error:', error);

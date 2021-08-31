@@ -22,41 +22,68 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.common.collect.ImmutableMap;
+import com.sendgrid.*;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.HttpCookie;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-@RestController // added
+@RestController
 public class MyApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MyApplication.class, args);
     }
 
-    @GetMapping("/hello") // added
-    public String hello() { // added
-        return "Hello world!"; // added
-    } // added
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello world!";
+    }
 
     @PostMapping("/notify-me")
     public String notifyMe(@RequestBody Map<String, String> body)
             throws IOException, InterruptedException, ExecutionException {
         Firestore db = getFirestore();
-        DocumentReference document = db.collection("emails").document(body.get("email"));
+        String email = body.get("email");
+        DocumentReference document = db.collection("emails").document(email);
         ApiFuture<WriteResult> data = document.set(body);
         System.out.println(data.get().getUpdateTime());
+
+        //sendEmail(email);
         return new ObjectMapper().writeValueAsString(body);
+    }
+
+    private void sendEmail(String email) throws IOException {
+        Email from = new Email("mimidalena@gmail.com");
+        String subject = "Full Stack Cloud Developer Course Registration";
+        Email to = new Email(email);
+        Content content = new Content("text/plain", "You've been added to the list! We'll notify you when registration begins.");
+        Mail mail = new Mail(from, subject, to, content);
+
+        SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));
+        Request request = new Request();
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sg.api(request);
+            System.out.println(response.getStatusCode());
+            System.out.println(response.getBody());
+            System.out.println(response.getHeaders());
+        } catch (IOException ex) {
+            throw ex;
+        }
     }
 
     private Firestore getFirestore() throws IOException {
@@ -68,4 +95,3 @@ public class MyApplication {
         return firestoreOptions.getService();
     }
 }
-// feature commit
