@@ -16,10 +16,7 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter{
 			.antMatchers("/app/**").authenticated()
 			.antMatchers("/**").permitAll()
 			.and()
-			.formLogin()
-				.loginPage("/login")
-				.failureUrl("/login-error")
-				.permitAll()
+			.oauth2Login() //oauth
 			.and()
 			.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -28,7 +25,7 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter{
 
 
 	/**
-	 * This handles the username and password auth for now.
+	 * This handles the form username and password auth.
 	 *
 	 * Username: admin
 	 * Password: password

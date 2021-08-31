@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class WebController {
-	@RequestMapping("/")
-	@ResponseBody
-	public String index(){
-		return "hello";
-	}
+	// @RequestMapping("/")
+	// @ResponseBody
+	// public String index(){
+	// 	return "hello";
+	// }
 
 	@RequestMapping("/app")
 	@ResponseBody
