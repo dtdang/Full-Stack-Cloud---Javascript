@@ -41,7 +41,7 @@ $(document).ready(function(){
 	$('#product-form').submit(function(ev){
 		// This prevents the form from doing its default submit behavior
 		ev.preventDefault();
-		console.log('Button pressed');
+
 		var form = $(ev.currentTarget);
 		let data = {
 			id: $("#prodID").val(),
