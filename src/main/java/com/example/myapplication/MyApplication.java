@@ -33,19 +33,27 @@ import com.google.common.collect.ImmutableMap;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-@RestController
+@Controller
 public class MyApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MyApplication.class, args);
     }
 
+    @RequestMapping("/")
+    public String index(){
+        return "index.html";
+    }
     @PostMapping("/notify-me")
     public String notifyMe(@RequestBody Map<String, String> body)
             throws IOException, InterruptedException, ExecutionException {
