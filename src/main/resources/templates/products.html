@@ -26,9 +26,9 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="../static/index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
-						<li class="nav-item"><a class="nav-link" href="warehouse.html">Warehouse</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="index">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="shop">Shop</a></li>
+						<li class="nav-item"><a class="nav-link" href="products">products</a></li>
                     </ul>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                 </div>
             </div>
         </header>
-		<!-- Table-->
+		Table
 		<div align="center">
 		<br>
 		<h3>Product List</h3>
@@ -60,11 +60,12 @@
 				<td th:text="${prod.Name}">Product Name</td>
 				<td th:text="${prod.Stock}">Product Stock</td>
 				<td th:text="${prod.Price}">Product Price</td>
-				<td><a th:href="@{/product/edit/{id}(id=${prod.id})}">Edit</a>
-					<a th:href="@{/product/delete/{id}(id=${prod.id})}">Delete</a></td>
+				<td><a th:href="@{/product/edit/{id}(id=${prod.ProductID})}">Edit</a>
+					<a th:href="@{/product/delete/{id}(id=${prod.ProductID})}">Delete</a></td>
 			</tr>
 		</table>
 		<br> <a th:href="@{/product/add}">Add Product</a> <br>
+
 	</div>
 	</body>
 	<script async src="../js/scripts.js"></script>

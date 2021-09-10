@@ -5,9 +5,11 @@ public class Product {
 	private String prodName;
 	private int prodStock;
 	private int prodPrice;
+
 	public Product(){
 		super();
 	}
+
 	public Product(String prodID, String prodName, int prodStock, int prodPrice){
 		super();
 		this.prodID = prodID;
@@ -38,5 +40,10 @@ public class Product {
 	}
 	public void setProdPrice(int prodPrice){
 		this.prodPrice = prodPrice;
+	}
+
+	@Override
+	public String toString(){
+		return "Product {prodID:" + prodID + ", prodName:" + prodName + ", prodStock:" + prodStock + ", prodPrice:" + prodPrice + "}";
 	}
 }

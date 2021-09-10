@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Email List</title>
+</head>
+<body>
+    <div>
+        <div>Email List</div>
+        <table>
+        <tr>
+            <th>Email</th>
+        </tr>
+        <tr th:each="em : ${emails}">
+            <td th:text="${em.email}">Email Here</td>
+        </tr>
+        </table>
+    </div>
+</body>
+</html>
+

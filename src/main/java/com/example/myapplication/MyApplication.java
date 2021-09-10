@@ -50,9 +50,9 @@ public class MyApplication {
         SpringApplication.run(MyApplication.class, args);
     }
 
-    @RequestMapping("/")
+    @GetMapping({"/", "/index"})
     public String index(){
-        return "html/index.html";
+        return "index";
     }
 
     @PostMapping("/notify-me")
@@ -90,7 +90,7 @@ public class MyApplication {
     //     }
     // }
 
-    @GetMapping("/email-list")
+
     public List<Map<String, Object>> getEmails() throws IOException, InterruptedException, ExecutionException{
         List<Map<String, Object>> list = new ArrayList<>();
         Firestore db = getFirestore();
@@ -102,6 +102,12 @@ public class MyApplication {
             list.add(document.getData());
         }
         return list;
+    }
+
+    @RequestMapping("/emails")
+    public String showEmails(Model model) throws IOException, InterruptedException, ExecutionException{
+        model.addAttribute("emails", getEmails());
+        return "emails";
     }
 
     @PostMapping("/product-post")
@@ -124,19 +130,27 @@ public class MyApplication {
         return new ObjectMapper().writeValueAsString(body);
     }
 
-
-    @GetMapping("/warehouse")
     public List<Map<String, Object>> getProducts() throws IOException, InterruptedException, ExecutionException {
         List<Map<String, Object>> prodMap = new ArrayList<>();
         Firestore db = getFirestore();
         ApiFuture<QuerySnapshot> query = db.collection("products").get();
-        QuerySnapshot querySnapshot = query.get();
-        List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+        List<QueryDocumentSnapshot> documents = query.get().getDocuments();
 
         for (QueryDocumentSnapshot document: documents){
             prodMap.add(document.getData());
         }
         return prodMap;
+    }
+
+    @RequestMapping("/products")
+    public String showProducts(Model model) throws IOException, InterruptedException, ExecutionException{
+        model.addAttribute("products", getProducts());
+        return "products";
+    }
+
+    @RequestMapping("/shop")
+    public String shop(){
+        return "shop";
     }
 
     private Firestore getFirestore() throws IOException {
