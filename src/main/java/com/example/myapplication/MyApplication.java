@@ -123,6 +123,21 @@ public class MyApplication {
         return new ObjectMapper().writeValueAsString(body);
     }
 
+
+    @GetMapping("/warehouse")
+    public String getProducts() throws IOException, InterruptedException, ExecutionException {
+        Map<String,Object> prodMap = new HashMap<>();
+        Firestore db = getFirestore();
+        ApiFuture<QuerySnapshot> query = db.collection("products").get();
+        QuerySnapshot querySnapshot = query.get();
+        List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+
+        for (QueryDocumentSnapshot document: documents){
+            prodMap.put(document, );
+        }
+        return "warehouse";
+    }
+    
     private Firestore getFirestore() throws IOException {
         FirestoreOptions firestoreOptions =
             FirestoreOptions.getDefaultInstance().toBuilder()

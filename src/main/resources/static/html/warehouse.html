@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -43,18 +43,29 @@
             </div>
         </header>
 		<!-- Table-->
-		<table id="product-table" class="table table-striped">
-			<thead>
-			  <tr>
-				<th scope="col">Prod ID</th>
-				<th scope="col">Prod Name</th>
-				<th scope="col">Prod Stock</th>
-				<th scope="col">Prod Price</th>
-			  </tr>
-			</thead>
-			<tbody id="myTable">
-			</tbody>
-		  </table>
+		<div align="center">
+		<br>
+		<h3>Product List</h3>
+		<br />
+		<table border="1">
+			<tr>
+				<td>Product ID</td>
+				<td>Product Name</td>
+				<td>Product Stock</td>
+				<td>Product Price</td>
+				<td>...</td>
+			</tr>
+			<tr th:each="prod : ${products}">
+				<td th:text="${prod.ProductID}">Product ID</td>
+				<td th:text="${prod.Name}">Product Name</td>
+				<td th:text="${prod.Stock}">Product Stock</td>
+				<td th:text="${prod.Price}">Product Price</td>
+				<td><a th:href="@{/product/edit/{id}(id=${prod.id})}">Edit</a>
+					<a th:href="@{/product/delete/{id}(id=${prod.id})}">Delete</a></td>
+			</tr>
+		</table>
+		<br> <a th:href="@{/product/add}">Add Product</a> <br>
+	</div>
 	</body>
 	<script async src="../js/scripts.js"></script>
 	</html>
