@@ -52,8 +52,9 @@ public class MyApplication {
 
     @RequestMapping("/")
     public String index(){
-        return "index.html";
+        return "html/index.html";
     }
+
     @PostMapping("/notify-me")
     public String notifyMe(@RequestBody Map<String, String> body)
             throws IOException, InterruptedException, ExecutionException {
@@ -125,19 +126,19 @@ public class MyApplication {
 
 
     @GetMapping("/warehouse")
-    public String getProducts() throws IOException, InterruptedException, ExecutionException {
-        Map<String,Object> prodMap = new HashMap<>();
+    public List<Map<String, Object>> getProducts() throws IOException, InterruptedException, ExecutionException {
+        List<Map<String, Object>> prodMap = new ArrayList<>();
         Firestore db = getFirestore();
         ApiFuture<QuerySnapshot> query = db.collection("products").get();
         QuerySnapshot querySnapshot = query.get();
         List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
 
         for (QueryDocumentSnapshot document: documents){
-            prodMap.put(document, );
+            prodMap.add(document.getData());
         }
-        return "warehouse";
+        return prodMap;
     }
-    
+
     private Firestore getFirestore() throws IOException {
         FirestoreOptions firestoreOptions =
             FirestoreOptions.getDefaultInstance().toBuilder()
