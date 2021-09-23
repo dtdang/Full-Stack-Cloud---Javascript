@@ -3,14 +3,14 @@ package com.example.myapplication;
 public class Product {
 	private String prodID;
 	private String prodName;
-	private int prodStock;
-	private int prodPrice;
+	private String prodStock;
+	private String prodPrice;
 
 	public Product(){
 		super();
 	}
 
-	public Product(String prodID, String prodName, int prodStock, int prodPrice){
+	public Product(String prodID, String prodName, String prodStock, String prodPrice){
 		super();
 		this.prodID = prodID;
 		this.prodName = prodName;
@@ -29,16 +29,16 @@ public class Product {
 	public void setProdName(String prodName){
 		this.prodName = prodName;
 	}
-	public int getProdStock(){
+	public String getProdStock(){
 		return prodStock;
 	}
-	public void setProdStock(int prodStock){
+	public void setProdStock(String prodStock){
 		this.prodStock = prodStock;
 	}
-	public int getProdPrice(){
+	public String getProdPrice(){
 		return prodPrice;
 	}
-	public void setProdPrice(int prodPrice){
+	public void setProdPrice(String prodPrice){
 		this.prodPrice = prodPrice;
 	}
 

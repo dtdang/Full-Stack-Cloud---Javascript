@@ -3,6 +3,7 @@ package com.example.myapplication;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,6 +37,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -115,7 +118,6 @@ public class MyApplication {
         throws IOException, InterruptedException, ExecutionException {
         Firestore db = getFirestore();
 
-
         Map<String, Object> data = new HashMap<>();
         data.put("ProductID", body.get("id"));
         data.put("Name", body.get("name"));
@@ -146,6 +148,22 @@ public class MyApplication {
     public String showProducts(Model model) throws IOException, InterruptedException, ExecutionException{
         model.addAttribute("products", getProducts());
         return "products";
+    }
+
+    @GetMapping("/product/edit/{id}")
+    public String getProducts(Model model, @PathVariable("id") String prodID) throws InterruptedException, ExecutionException, IOException{
+        Firestore db = getFirestore();
+        DocumentReference docRef = db.collection("products").document(prodID);
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+        System.out.println("\nDocument data: " + document.getData());
+
+        Map<String, Product> data = new HashMap<>();
+        data.put(prodID, new Product(document.getString("ProductID"), document.getString("Name"),  document.getString("Stock"),  document.getString("Price")));
+        System.out.println("\nData Stuff: " + data + "\n");
+        model.addAttribute("editProduct", data.get(prodID));
+
+        return "product-edit";
     }
 
     @RequestMapping("/shop")

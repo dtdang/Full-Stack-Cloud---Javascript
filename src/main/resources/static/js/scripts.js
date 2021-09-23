@@ -43,6 +43,11 @@ $(document).ready(function(){
 		ev.preventDefault();
 
 		var form = $(ev.currentTarget);
+		if ($("#prodID").val() === "" || $("#prodName").val() === "" ||
+			$("#prodStock").val() === ""  || $("#prodPrice").val() === "" ){
+			$('#missingProductBackdrop').modal('show')
+			return;
+		}
 		let data = {
 			id: $("#prodID").val(),
 			name: $("#prodName").val(),
@@ -50,7 +55,6 @@ $(document).ready(function(){
 			price: $("#prodPrice").val()
 		}
 
-		console.log(data);
 		fetch(form.attr('action'), {
 			method: 'POST',
 			headers: {
@@ -59,18 +63,29 @@ $(document).ready(function(){
 			body: JSON.stringify(data),
 		})
 		.then(response => response.json())
-		.then(data => {
-			console.log(data);
-			$('#staticBackdrop').modal('show')
-		})
+		.then($('#productBackdrop').modal('show'))
 		.catch((error) => {
 			console.error('Error:', error);
 		});
 	});
 });
 
+function openForm(){
+	document.getElementById("productForm").style.display="block";
+}
 
+function closeForm(){
+	document.getElementById("productForm").style.display="none";
+}
 
+function validateForm(){
+	let data = {
+		id: $("#prodID").val(),
+		name: $("#prodName").val(),
+		stock: $("#prodStock").val(),
+		price: $("#prodPrice").val()
+	}
 
+}
 
 

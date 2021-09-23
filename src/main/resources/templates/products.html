@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="Shop for your products here" />
         <meta name="author" content="Dalena" />
-        <title>Shop</title>
+        <title>Product List</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
         <!-- Bootstrap icons-->
@@ -28,45 +28,93 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="index">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="shop">Shop</a></li>
-						<li class="nav-item"><a class="nav-link" href="products">products</a></li>
+						<li class="nav-item"><a class="nav-link" href="products">Products</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <!-- Header-->
-        <header class="bg-dark py-5 shop-head">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Shop in style</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+		<div align="center">
+		    <br/>
+		    <h3>Product List</h3>
+		    <br />
+            <table border="1">
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Product Stock</th>
+                    <th>Product Price</th>
+                    <th>...</th>
+                </tr>
+                <tr th:each="prod : ${products}">
+                    <td th:text="${prod.ProductID}">Product ID</td>
+                    <td th:text="${prod.Name}">Product Name</td>
+                    <td th:text="${prod.Stock}">Product Stock</td>
+                    <td th:text="${prod.Price}">Product Price</td>
+                    <td><a th:href="@{/product/edit/{id}(id=${prod.ProductID})}">Edit</a>
+                        <a th:href="@{/product/delete/{id}(id=${prod.ProductID})}">Delete</a></td>
+                </tr>
+            </table>
+	    </div>
+         <!-- Add Products-->
+        <section>
+            <button class="open-button" onclick="openForm()">Add New Product</button>
+            <div class="form-popup" id="productForm">
+                <form method="POST" action="/product-post" id="product-form" class="form-container">
+                    <div class="input-group">
+                        <Label for="prodID">Product Name: </Label>
+                        <input type="text" id="prodID" value="" placeholder="Product ID"/>
+                    </div>
+                    <div class="input-group">
+                        <Label for="prodName">Product Name: </Label>
+                        <input type="text" id="prodName" value="" placeholder="Product Name"/>
+                    </div>
+                    <div class="input-group">
+                        <Label for="prodStock">Product Stock: </Label>
+                        <input type="text" id="prodStock" value="" placeholder="Product Stock"/>
+                    </div>
+                    <div class="input-group">
+                        <Label for="prodPrice">Product Price: </Label>
+                        <input type="text" id="prodPrice" value="" placeholder="Product Price"/>
+                    </div>
+                    <button id="prodSubmit" type="submit" class="btn">Submit</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                </form>
+            </div>
+        </section>
+        <!-- Product Modal -->
+        <div class="modal fade" id="productBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Product Added </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    Product Added.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
-        </header>
-		Table
-		<div align="center">
-		<br>
-		<h3>Product List</h3>
-		<br />
-		<table border="1">
-			<tr>
-				<td>Product ID</td>
-				<td>Product Name</td>
-				<td>Product Stock</td>
-				<td>Product Price</td>
-				<td>...</td>
-			</tr>
-			<tr th:each="prod : ${products}">
-				<td th:text="${prod.ProductID}">Product ID</td>
-				<td th:text="${prod.Name}">Product Name</td>
-				<td th:text="${prod.Stock}">Product Stock</td>
-				<td th:text="${prod.Price}">Product Price</td>
-				<td><a th:href="@{/product/edit/{id}(id=${prod.ProductID})}">Edit</a>
-					<a th:href="@{/product/delete/{id}(id=${prod.ProductID})}">Delete</a></td>
-			</tr>
-		</table>
-		<br> <a th:href="@{/product/add}">Add Product</a> <br>
-
-	</div>
+        </div>
+        <!-- No Product Modal -->
+        <div class="modal fade" id="missingProductBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">No Product Added</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    Error. Please add a product.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 	</body>
 	<script async src="../js/scripts.js"></script>
 	</html>

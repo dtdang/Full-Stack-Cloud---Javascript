@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Shop for your products here" />
+        <meta name="author" content="Dalena" />
+        <title>Product Edit</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../css/styles.css" rel="stylesheet" />
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS (including jquery)-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="http://localhost:35729/livereload.js"></script>
+    </head>
+	<body>
+		<!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="#!">Shop</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="index">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="shop">Shop</a></li>
+						<li class="nav-item"><a class="nav-link" href="products">Products</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+		<div align="center">
+			<br>
+			<h3>Edit Products</h3>
+			<br>
+			<form th:action="@{/product/edit/{id}(id=*{prodID})}"
+				th:object="${editProduct}" method="post" id="product-form">
+				<table>
+					<tr>
+						<td>Product Id</td>
+						<td><input type="text" disabled="disabled" name="ProductID"
+							th:field="*{prodID}" /></td>
+					</tr>
+					<tr>
+						<td>Product Name</td>
+						<td><input type="text" name="Name"
+							th:field="*{prodName}" /></td>
+					</tr>
+					<tr>
+						<td>Product Stock</td>Stock
+						<td><input type="number" name="Stock" th:field="*{prodStock}" /></td>
+					</tr>
+					<tr>
+						<td>Product Price</td>
+						<td><input type="number" name="Price" th:field="*{prodPrice}" /></td>
+					</tr>
+				</table>
+				<button id="prodSubmit" type="submit" class="btn">Submit</button>
+			</form>
+		</div>
+        <!-- No Product Modal
+        <div class="modal fade" id="missingProductBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">No Product Added</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    Error. Please add a product.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+	</body>
+	<script async src="../js/scripts.js"></script>
+	</html>
