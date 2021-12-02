@@ -78,14 +78,4 @@ function closeForm(){
 	document.getElementById("productForm").style.display="none";
 }
 
-function validateForm(){
-	let data = {
-		id: $("#prodID").val(),
-		name: $("#prodName").val(),
-		stock: $("#prodStock").val(),
-		price: $("#prodPrice").val()
-	}
-
-}
-
 

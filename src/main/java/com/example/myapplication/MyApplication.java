@@ -24,12 +24,12 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.common.collect.ImmutableMap;
-// import com.sendgrid.Method;
-// import com.sendgrid.Request;
-// import com.sendgrid.SendGrid;
-// import com.sendgrid.helpers.mail.Mail;
-// import com.sendgrid.helpers.mail.objects.Content;
-// import com.sendgrid.helpers.mail.objects.Email;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
 
 
 import org.springframework.boot.SpringApplication;
@@ -42,6 +42,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -72,10 +73,10 @@ public class MyApplication {
     }
 
     // private void sendEmail(String email) throws IOException {
-    //     Email from = new Email("mimidalena@gmail.com");
-    //     String subject = "Full Stack Cloud Developer Course Registration";
+    //     Email from = new Email("kitsune_akuma@yahoo.com");
+    //     String subject = "Company Registration Discount";
     //     Email to = new Email(email);
-    //     Content content = new Content("text/plain", "You've been added to the list! We'll notify you when registration begins.");
+    //     Content content = new Content("text/plain", "You've been added to the list! Here is the code for your 10% discount.");
     //     Mail mail = new Mail(from, subject, to, content);
 
     //     SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));
@@ -160,11 +161,30 @@ public class MyApplication {
 
         Map<String, Product> data = new HashMap<>();
         data.put(prodID, new Product(document.getString("ProductID"), document.getString("Name"),  document.getString("Stock"),  document.getString("Price")));
-        System.out.println("\nData Stuff: " + data + "\n");
         model.addAttribute("editProduct", data.get(prodID));
 
         return "product-edit";
     }
+
+    @PostMapping("/product/update/{id}")
+    public String updateProduct(@RequestParam Map<String, Object> body, Model model)
+        throws IOException, InterruptedException, ExecutionException {
+    Firestore db = getFirestore();
+    System.out.println("\nUpdate Data: " + body + "\n");
+
+    Map<String, Object> updated_data = new HashMap<>();
+    updated_data.put("ProductID", body.get("id"));
+    updated_data.put("Name", body.get("name"));
+    updated_data.put("Price", body.get("price"));
+    updated_data.put("Stock", body.get("stock"));
+
+    DocumentReference document = db.collection("products").document((String) body.get("id"));
+
+    ApiFuture<WriteResult> result = document.update(updated_data);
+    System.out.println("\nUpdate Data: " + updated_data + "\n");
+    System.out.println("Update time : " + result.get().getUpdateTime());
+    return "redirect:/products";
+}
 
     @RequestMapping("/shop")
     public String shop(){
@@ -174,7 +194,7 @@ public class MyApplication {
     private Firestore getFirestore() throws IOException {
         FirestoreOptions firestoreOptions =
             FirestoreOptions.getDefaultInstance().toBuilder()
-                .setProjectId("landing-project-dd")
+                .setProjectId("astral-altar-333819")
                 .setCredentials(GoogleCredentials.getApplicationDefault())
                 .build();
         return firestoreOptions.getService();
